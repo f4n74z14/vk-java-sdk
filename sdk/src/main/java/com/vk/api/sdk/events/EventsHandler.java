@@ -16,8 +16,6 @@ import org.slf4j.Logger;
 
 public abstract class EventsHandler {
 
-    private static final String OVERRIDING_ERR = "Method of handling event is not overridden";
-
     private static final Logger LOG = LoggerFactory.getLogger(EventsHandler.class);
 
     protected final Gson gson = new Gson();
@@ -27,160 +25,162 @@ public abstract class EventsHandler {
     }
 
     protected String confirmation() {
-        LOG.error(OVERRIDING_ERR);
         return null;
     }
 
-    protected void messageNew(Integer groupId, Message message) {
-        LOG.error(OVERRIDING_ERR);
+    protected void messageNew(Integer groupId, MessageObject message) {
+        
+    }
+    protected void messageEvent(Integer groupId, MessageEvent message) {
+        
     }
 
     protected void messageReply(Integer groupId, Message message) {
-        LOG.error(OVERRIDING_ERR);
+        
     }
 
     protected void messageEdit(Integer groupId, Message message) {
-        LOG.error(OVERRIDING_ERR);
+        
     }
 
     protected void messageAllow(Integer groupId, MessageAllow message) {
-        LOG.error(OVERRIDING_ERR);
+        
     }
 
     protected void messageDeny(Integer groupId, MessageDeny message) {
-        LOG.error(OVERRIDING_ERR);
+        
     }
 
     protected void photoNew(Integer groupId, Photo message) {
-        LOG.error(OVERRIDING_ERR);
+        
     }
 
     protected void photoCommentNew(Integer groupId, PhotoComment message) {
-        LOG.error(OVERRIDING_ERR);
+        
     }
 
     protected void photoCommentEdit(Integer groupId, PhotoComment message) {
-        LOG.error(OVERRIDING_ERR);
+        
     }
 
     protected void photoCommentRestore(Integer groupId, PhotoComment message) {
-        LOG.error(OVERRIDING_ERR);
+        
     }
 
     protected void photoCommentDelete(Integer groupId, PhotoCommentDelete message) {
-        LOG.error(OVERRIDING_ERR);
+        
     }
 
     protected void audioNew(Integer groupId, Audio message) {
-        LOG.error(OVERRIDING_ERR);
+        
     }
 
     protected void videoNew(Integer groupId, Video message) {
-        LOG.error(OVERRIDING_ERR);
+        
     }
 
     protected void videoCommentNew(Integer groupId, VideoComment message) {
-        LOG.error(OVERRIDING_ERR);
+        
     }
 
     protected void videoCommentEdit(Integer groupId, VideoComment message) {
-        LOG.error(OVERRIDING_ERR);
+        
     }
 
     protected void videoCommentRestore(Integer groupId, VideoComment message) {
-        LOG.error(OVERRIDING_ERR);
+        
     }
 
     protected void videoCommentDelete(Integer groupId, VideoCommentDelete message) {
-        LOG.error(OVERRIDING_ERR);
+        
     }
 
     protected void wallPostNew(Integer groupId, Wallpost message) {
-        LOG.error(OVERRIDING_ERR);
+        
     }
 
     protected void wallRepost(Integer groupId, Wallpost message) {
-        LOG.error(OVERRIDING_ERR);
+        
     }
 
     protected void wallReplyNew(Integer groupId, WallComment object) {
-        LOG.error(OVERRIDING_ERR);
+        
     }
 
     protected void wallReplyEdit(Integer groupId, WallComment message) {
-        LOG.error(OVERRIDING_ERR);
+        
     }
 
     protected void wallReplyRestore(Integer groupId, WallComment message) {
-        LOG.error(OVERRIDING_ERR);
+        
     }
 
     protected void wallReplyDelete(Integer groupId, WallCommentDelete message) {
-        LOG.error(OVERRIDING_ERR);
+        
     }
 
     protected void boardPostNew(Integer groupId, TopicComment message) {
-        LOG.error(OVERRIDING_ERR);
+        
     }
 
     protected void boardPostEdit(Integer groupId, TopicComment message) {
-        LOG.error(OVERRIDING_ERR);
+        
     }
 
     protected void boardPostRestore(Integer groupId, TopicComment message) {
-        LOG.error(OVERRIDING_ERR);
+        
     }
 
     protected void boardPostDelete(Integer groupId, BoardPostDelete message) {
-        LOG.error(OVERRIDING_ERR);
+        
     }
 
     protected void marketCommentNew(Integer groupId, MarketComment message) {
-        LOG.error(OVERRIDING_ERR);
+        
     }
 
     protected void marketCommentEdit(Integer groupId, MarketComment message) {
-        LOG.error(OVERRIDING_ERR);
+        
     }
 
     protected void marketCommentRestore(Integer groupId, MarketComment message) {
-        LOG.error(OVERRIDING_ERR);
+        
     }
 
     protected void marketCommentDelete(Integer groupId, MarketCommentDelete message) {
-        LOG.error(OVERRIDING_ERR);
+        
     }
 
     protected void groupLeave(Integer groupId, GroupLeave message) {
-        LOG.error(OVERRIDING_ERR);
+        
     }
 
     protected void groupJoin(Integer groupId, GroupJoin message) {
-        LOG.error(OVERRIDING_ERR);
+        
     }
 
     protected void groupChangeSettings(Integer groupId, GroupChangeSettings message) {
-        LOG.error(OVERRIDING_ERR);
+        
     }
 
     protected void groupChangePhoto(Integer groupId, GroupChangePhoto message) {
-        LOG.error(OVERRIDING_ERR);
+        
     }
 
     protected void groupOfficersEdit(Integer groupId, GroupOfficersEdit message) {
-        LOG.error(OVERRIDING_ERR);
+        
     }
 
     protected void pollVoteNew(Integer groupId, PollVoteNew message) {
-        LOG.error(OVERRIDING_ERR);
+        
     }
 
     protected void userBlock(Integer groupId, UserBlock message) {
-        LOG.error(OVERRIDING_ERR);
+        
     }
 
     protected void userUnblock(Integer groupId, UserUnblock message) {
-        LOG.error(OVERRIDING_ERR);
+        
     }
 
     protected String parse(CallbackMessage message) {
@@ -189,6 +189,9 @@ public abstract class EventsHandler {
                 return confirmation();
             case MESSAGE_NEW:
                 messageNew(message.getGroupId(), designateObject(message.getObject(), message.getType()));
+                break;
+            case MESSAGE_EVENT:
+                messageEvent(message.getGroupId(), designateObject(message.getObject(), message.getType()));
                 break;
             case MESSAGE_REPLY:
                 messageReply(message.getGroupId(), designateObject(message.getObject(), message.getType()));
@@ -302,7 +305,6 @@ public abstract class EventsHandler {
                 pollVoteNew(message.getGroupId(), designateObject(message.getObject(), message.getType()));
                 break;
             default:
-                LOG.error("Unexpected callback event type received");
                 return null;
         }
         return "OK";

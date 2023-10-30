@@ -15,7 +15,10 @@ import java.lang.reflect.Type;
 public enum Events {
 
     @SerializedName("message_new")
-    MESSAGE_NEW(Message.class),
+    MESSAGE_NEW(MessageObject.class),
+
+    @SerializedName("message_event")
+    MESSAGE_EVENT(MessageEvent.class),
 
     @SerializedName("message_reply")
     MESSAGE_REPLY(Message.class),
